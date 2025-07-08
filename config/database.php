@@ -2,7 +2,7 @@
 // Database configuration
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'projec15_nutrition_db');
-define('DB_USER', 'root');
+define('DB_USER', 'projec15_root');
 define('DB_PASS', '@kaesquare123');
 
 try {
