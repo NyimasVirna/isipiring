@@ -1,0 +1,19 @@
+-- Buat database
+CREATE DATABASE IF NOT EXISTS nutrition_db DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE nutrition_db;
+
+-- Tabel users
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  birth_date DATE DEFAULT NULL,
+  gender ENUM('male','female') DEFAULT NULL,
+  height INT DEFAULT NULL,
+  weight INT DEFAULT NULL,
+  activity VARCHAR(20) DEFAULT NULL,
+  is_pregnant TINYINT(1) DEFAULT 0,
+  is_breastfeed TINYINT(1) DEFAULT 0,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; 

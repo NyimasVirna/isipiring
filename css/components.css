@@ -1,0 +1,203 @@
+/* Streak Display */
+.streak-display {
+  text-align: center;
+}
+
+.streak-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #16a34a;
+  margin-bottom: 0.5rem;
+}
+
+.streak-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-top: 0.75rem;
+}
+
+.dot {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: #e5e7eb;
+}
+
+.dot.active {
+  background: #16a34a;
+}
+
+/* Achievement Display */
+.achievement-display {
+  text-align: center;
+}
+
+.achievement-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #16a34a;
+  margin-bottom: 0.5rem;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.badge-success {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.badge-warning {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.badge-info {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+/* Quick Actions */
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  background: white;
+  border: 1px solid #dcfce7;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.action-btn:hover {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.action-btn i {
+  font-size: 1.5rem;
+  color: #16a34a;
+}
+
+.action-btn span {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Food Logger Components */
+.food-logger-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .food-logger-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.nutrition-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.nutrition-item {
+  text-align: center;
+}
+
+.nutrition-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #16a34a;
+  margin-bottom: 0.25rem;
+}
+
+.nutrition-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.nutrition-target {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin-top: 0.25rem;
+}
+
+/* Form Elements */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  transition: border-color 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+}
+
+input:disabled,
+select:disabled {
+  background: #f9fafb;
+  color: #6b7280;
+}
+
+.search-input {
+  position: relative;
+}
+
+.search-input i {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+}
+
+.search-input input {
+  padding-left: 2.5rem;
+}
