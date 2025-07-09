@@ -201,11 +201,11 @@ function renderDashboard(mode) {
     <div style='color:#16a34a;font-weight:bold;font-size:1.1rem;margin-bottom:8px;'>Insight & Rekomendasi</div>
     <div style='display:grid;grid-template-columns:1fr 1fr;gap:16px;'>
       <div style='background:#f0fdf4;padding:12px;border-radius:8px;'>
-        <div style='font-weight:700;color:#166534;margin-bottom:4px;'>Kekuatan Anda</div>
+        <div style='font-weight:700;color:#166534;margin-bottom:4px;'>Kebutuhan yang sudah kamu penuhi!</div>
         <div style='color:#166534;font-size:0.95rem;'>${dashData.weekly.length && dashData.weekly.reduce((s,d)=>s+parseFloat(d.protein||0),0)/dashData.weekly.length>dashTargets.protein?"Konsistensi asupan protein sangat baik!":"Konsistensi protein perlu ditingkatkan."}</div>
       </div>
       <div style='background:#fef3c7;padding:12px;border-radius:8px;'>
-        <div style='font-weight:700;color:#ea580c;margin-bottom:4px;'>Area Perbaikan</div>
+        <div style='font-weight:700;color:#ea580c;margin-bottom:4px;'>Apa yang harus kamu tingkatkan?</div>
         <div style='color:#ea580c;font-size:0.95rem;'>${dashData.weekly.length && dashData.weekly.reduce((s,d)=>s+parseFloat(d.fiber||0),0)/dashData.weekly.length<dashTargets.fiber?"Asupan serat masih kurang. Coba tambahkan lebih banyak sayuran dan buah-buahan.":"Asupan serat sudah baik."}</div>
       </div>
     </div>

@@ -1,111 +1,276 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register - isi piring</title>
-  <link rel="stylesheet" href="../assets/css/styles.css">
+  <title>Register | isi piring</title>
   <style>
-    body { background: #f0fdf4; font-family: 'Segoe UI', Arial, sans-serif; }
-    .reg-container { max-width: 440px; margin: 60px auto; background: #fff; border-radius: 16px; box-shadow: 0 2px 12px rgba(16,185,129,0.08); padding: 32px 28px; }
-    .reg-title { font-size: 2rem; font-weight: bold; color: #14532d; margin-bottom: 8px; text-align: center; }
-    .reg-desc { color: #4b5563; text-align: center; margin-bottom: 24px; }
-    .form-group { margin-bottom: 18px; }
-    label { font-weight: 500; color: #166534; display: block; margin-bottom: 6px; }
-    input, select { width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #bbf7d0; background: #f9fafb; font-size: 1rem; }
-    .reg-btn { width: 100%; background: #16a34a; color: #fff; border: none; border-radius: 8px; padding: 12px 0; font-size: 1.1rem; font-weight: 500; cursor: pointer; margin-top: 8px; }
-    .reg-btn:hover { background: #166534; }
-    .reg-link { text-align: center; margin-top: 18px; }
-    .reg-alert { background: #fee2e2; color: #b91c1c; padding: 10px 16px; border-radius: 8px; margin-bottom: 12px; text-align: center; }
-    .form-row { display: flex; gap: 12px; }
-    .form-row > div { flex: 1; }
-    @media (max-width: 600px) { .form-row { flex-direction: column; gap: 0; } }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #e6f9ed 0%, #bbf7d0 60%, #16a34a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 0;
+    }
+    .register-card {
+      display: flex;
+      background: #fff;
+      border-radius: 32px;
+      /* Shadow lebih tebal dan lembut */
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18), 0 1.5px 8px 0 rgba(22,163,74,0.10);
+      overflow: hidden;
+      max-width: 900px;
+      width: 100%;
+      min-height: 480px;
+      margin: 0 16px;
+      /* Animasi muncul dari bawah */
+      opacity: 0;
+      transform: translateY(60px) scale(0.98);
+      animation: slideUp 0.7s cubic-bezier(.23,1.01,.32,1) 0.1s both;
+    }
+    @keyframes slideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(60px) scale(0.98);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    .register-left {
+      background: linear-gradient(135deg, #e6f9ed 0%, #bbf7d0 100%);
+      color: #14532d;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 56px 36px 56px 36px;
+    }
+    .register-illustration {
+      width: 110px;
+      margin-bottom: 24px;
+    }
+    .register-left h2 {
+      margin: 0 0 12px 0;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .register-left p {
+      margin: 0;
+      font-size: 1.05rem;
+      color: #166534;
+    }
+    .register-right {
+      flex: 1.2;
+      padding: 56px 48px 56px 48px; /* lebih lega */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .register-right h2 {
+      margin-bottom: 28px;
+      color: #14532d;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .register-form input, .register-form select {
+      width: 100%;
+      padding: 16px 18px;
+      margin-bottom: 22px;
+      border-radius: 14px;
+      border: 1.5px solid #bbf7d0;
+      background: #f9fafb;
+      font-size: 1rem;
+      transition: border 0.2s;
+      box-sizing: border-box;
+      display: block;
+    }
+    .register-form input:focus, .register-form select:focus {
+      border: 1.5px solid #16a34a;
+      outline: none;
+    }
+    .register-form button {
+      width: 100%;
+      padding: 16px 0;
+      background: #16a34a;
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-bottom: 12px;
+      margin-top: 8px;
+    }
+    .register-form button:hover {
+      background: #14532d;
+    }
+    .register-links {
+      margin-top: 18px;
+      text-align: center;
+    }
+    .register-links a {
+      color: #16a34a;
+      text-decoration: underline;
+      font-size: 0.98rem;
+    }
+    .register-form {
+      margin-top: 18px;
+    }
+    .female-extra {
+      display: none;
+      margin-bottom: 22px;
+      background: #fde7f3;
+      border: 2px solid #fff;
+      padding: 22px 20px 16px 20px;
+      border-radius: 18px;
+      color: #a21a5b;
+      font-size: 1.08rem;
+      box-shadow: 0 2px 12px rgba(253, 231, 243, 0.12);
+    }
+    .female-extra .extra-title {
+      font-weight: 600;
+      color: #a21a5b;
+      margin-bottom: 12px;
+      font-size: 1.08rem;
+      letter-spacing: 0.5px;
+    }
+    .female-extra .checkbox-row {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .female-extra label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.08rem;
+      font-weight: 500;
+      color: #a21a5b;
+      background: #fff;
+      border-radius: 10px;
+      padding: 6px 14px 6px 10px; /* lebih simetris */
+      box-shadow: 0 1px 4px rgba(253, 231, 243, 0.10);
+      transition: background 0.2s;
+      line-height: 1.2;
+      min-height: 32px;
+    }
+    .female-extra label:hover {
+      background: #fff0fa;
+    }
+    .female-extra input[type=checkbox] {
+      width: 22px;
+      height: 22px;
+      accent-color: #e75480;
+      border-radius: 6px;
+      margin-right: 0;
+      vertical-align: middle;
+    }
+    @media (max-width: 700px) {
+      .register-card { flex-direction: column; min-height: unset; }
+      .register-left, .register-right { padding: 32px 12px; }
+      .register-left { border-radius: 32px 32px 0 0; }
+      .register-right { border-radius: 0 0 32px 32px; }
+    }
   </style>
 </head>
 <body>
-  <div class="reg-container">
-    <div class="reg-title">Daftar Akun</div>
-    <div class="reg-desc">Buat akun baru untuk mulai menggunakan isi piring</div>
-    <div id="reg-alert"></div>
-    <form id="reg-form" autocomplete="off">
-      <div class="form-group">
-        <label for="name">Nama Lengkap</label>
-        <input type="text" id="name" name="name" required autofocus>
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="birth_date">Tanggal Lahir</label>
-          <input type="date" id="birth_date" name="birth_date">
-        </div>
-        <div class="form-group">
-          <label for="gender">Jenis Kelamin</label>
-          <select id="gender" name="gender">
-            <option value="female">Perempuan</option>
-            <option value="male">Laki-laki</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="height">Tinggi Badan (cm)</label>
-          <input type="number" id="height" name="height">
-        </div>
-        <div class="form-group">
-          <label for="weight">Berat Badan (kg)</label>
-          <input type="number" id="weight" name="weight">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="activity">Tingkat Aktivitas</label>
-        <select id="activity" name="activity">
-          <option value="sedentary">Sedentary (Tidak aktif)</option>
-          <option value="light">Light (Olahraga ringan 1-3x/minggu)</option>
-          <option value="moderate">Moderate (Olahraga 3-5x/minggu)</option>
-          <option value="active">Active (Olahraga 6-7x/minggu)</option>
-          <option value="very_active">Very Active (Olahraga 2x/hari)</option>
+  <div class="register-card">
+    <div class="register-left">
+      <img src="../public/placeholder-logo.svg" alt="Logo" class="register-illustration">
+      <h2>Bergabung dengan <span style="color:#16a34a;">isi piring</span></h2>
+      <p>Mulai perjalanan sehatmu hari ini!</p>
+    </div>
+    <div class="register-right">
+      <h2>Register</h2>
+
+      <!-- NEW: Tempat alert -->
+      <div id="alert-box"></div>
+
+      <form id="register-form" class="register-form">
+        <input type="text" name="name" placeholder="Nama Lengkap" required>
+        <input type="email" name="email" placeholder="Email" required autocomplete="username">
+        <input type="password" name="password" placeholder="Password" required autocomplete="new-password">
+        <input type="date" name="birth_date" placeholder="Tanggal Lahir" required>
+        <select name="gender" id="reg-gender" required>
+          <option value="">Pilih Jenis Kelamin</option>
+          <option value="female">Perempuan</option>
+          <option value="male">Laki-laki</option>
         </select>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label><input type="checkbox" id="is_pregnant" name="is_pregnant"> Sedang hamil</label>
+        <div class="female-extra" id="female-extra">
+          <div class="extra-title">Kondisi Khusus</div>
+          <div class="checkbox-row">
+            <label><input type="checkbox" name="is_pregnant"> Sedang hamil</label>
+            <label><input type="checkbox" name="is_breastfeed"> Sedang menyusui</label>
+          </div>
         </div>
-        <div class="form-group">
-          <label><input type="checkbox" id="is_breastfeed" name="is_breastfeed"> Sedang menyusui</label>
-        </div>
+        <input type="number" name="height" placeholder="Tinggi Badan (cm)" min="50" max="250" required>
+        <input type="number" name="weight" placeholder="Berat Badan (kg)" min="10" max="300" required>
+        <button type="submit">Daftar</button>
+      </form>
+
+      <div class="register-links">
+        <a href="login.php">Sudah punya akun? Login</a>
       </div>
-      <button type="submit" class="reg-btn">Daftar</button>
-    </form>
-    <div class="reg-link">
-      Sudah punya akun? <a href="login.php">Login di sini</a>
     </div>
   </div>
+
   <script>
-    document.getElementById('reg-form').onsubmit = function(e) {
+    // Tampilkan checkbox kondisi jika gender perempuan
+    const genderSelect = document.getElementById('reg-gender');
+    const femaleExtra = document.getElementById('female-extra');
+    genderSelect.addEventListener('change', function () {
+      if (this.value === 'female') {
+        femaleExtra.style.display = 'block';
+      } else {
+        femaleExtra.style.display = 'none';
+        femaleExtra.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+      }
+    });
+
+    // NEW: Tangani form submit dengan AJAX
+    const form = document.getElementById('register-form');
+    const alertBox = document.getElementById('alert-box');
+
+    form.addEventListener('submit', async function (e) {
       e.preventDefault();
-      document.getElementById('reg-alert').innerHTML = '';
-      const fd = new FormData(this);
-      fetch('register_action.php', { method: 'POST', body: fd })
-        .then(r=>r.json())
-        .then(res=>{
-          if(res.success) {
-            document.getElementById('reg-alert').innerHTML = '<span style="color:#166534;">'+(res.message||'Registrasi berhasil!')+'</span>';
-            setTimeout(()=>{ window.location.href = 'login.php'; }, 1200);
-          } else {
-            document.getElementById('reg-alert').innerHTML = res.message||'Registrasi gagal';
-          }
-        })
-        .catch(()=>{
-          document.getElementById('reg-alert').innerHTML = 'Registrasi gagal, coba lagi.';
+      alertBox.innerHTML = '';
+
+      const formData = new FormData(form);
+
+      try {
+        const res = await fetch('register_action.php', {
+          method: 'POST',
+          body: formData
         });
-    };
+
+        const result = await res.json();
+
+        const alert = document.createElement('div');
+        alert.className = 'alert ' + (result.success ? 'alert-success' : 'alert-error');
+        alert.innerText = result.message;
+        alertBox.appendChild(alert);
+
+        if (result.success) {
+          setTimeout(() => {
+            window.location.href = 'login.php';
+          }, 2000);
+        }
+
+      } catch (error) {
+        const alert = document.createElement('div');
+        alert.className = 'alert alert-error';
+        alert.innerText = 'Terjadi kesalahan saat mengirim data.';
+        alertBox.appendChild(alert);
+        console.error(error);
+      }
+    });
   </script>
 </body>
 </html>

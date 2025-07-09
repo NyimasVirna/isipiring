@@ -173,8 +173,10 @@ document.getElementById('edit-profile-btn').onclick = function() {
   clearProfileAlert();
   if(!editable) {
     // Simpan
+    updateProfile(true); // Enable semua field sebelum ambil FormData
     const form = document.getElementById('profile-form');
     const fd = new FormData(form);
+    updateProfile(false); // Kembalikan ke disable setelah ambil data
     fetch('actions/update_profile.php', {
       method: 'POST',
       body: fd

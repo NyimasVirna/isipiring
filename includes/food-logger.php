@@ -212,7 +212,7 @@ document.getElementById('food-form').addEventListener('submit', function(e){
   e.preventDefault();
   if(!selectedFood) return;
   const fd = new FormData();
-  fd.append('makanan_id', selectedFood.id);
+          fd.append('makanan_id', selectedFood.id);
   fd.append('porsi', portion);
   fd.append('waktu_makan', selectedMeal);
   fd.append('tanggal', new Date().toISOString().slice(0,10));

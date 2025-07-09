@@ -115,7 +115,7 @@ $user_data = getUserData($user_id);
     <div style="display:flex;gap:18px;justify-content:center;align-items:center;">
       <a href="#" onclick="showTab('community')" style="color:#16a34a;text-decoration:none;font-weight:500;">Komunitas</a>
       <span style="color:#bbf7d0;">|</span>
-      <a href="mailto:support@isipiring.com" style="color:#16a34a;text-decoration:none;font-weight:500;">Kontak</a>
+      <a href="mailto:virna1705@gmail.com" style="color:#16a34a;text-decoration:none;font-weight:500;">Kontak</a>
     </div>
   </div>
 </footer>
