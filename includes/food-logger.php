@@ -30,7 +30,7 @@
         </div>
         <div style="margin-bottom:16px;">
           <label for="food-search">Cari Makanan</label><br>
-          <div style="position:relative;">
+          <div class="food-search-container" style="position:relative;margin-bottom:56px;">
             <input type="text" id="food-search" placeholder="Ketik nama makanan..." style="width:100%;padding:8px 8px 8px 36px;border-radius:6px;border:1px solid #bbf7d0;" autocomplete="off">
             <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);">
               <svg width="18" height="18" fill="none" stroke="#888" stroke-width="2" viewBox="0 0 24 24">
@@ -38,8 +38,8 @@
                 <line x1="16.5" y1="16.5" x2="21" y2="21"/>
               </svg>
             </span>
+            <div id="food-search-results" style="position:absolute;z-index:1000;background:#fff;width:100%;box-shadow:0 4px 16px #0002;max-height:120px;overflow-y:auto;margin-top:4px;"></div>
           </div>
-          <div id="food-search-results" style="max-height:120px;overflow-y:auto;margin-top:4px;"></div>
         </div>
         <div id="selected-food-detail" style="display:none;margin-bottom:16px;background:#f0fdf4;padding:12px;border-radius:8px;"></div>
         <button type="submit" id="add-food-btn" style="width:100%;background:#16a34a;color:#fff;border:none;border-radius:8px;padding:12px 0;font-size:1rem;cursor:pointer;">Tambah ke Log</button>

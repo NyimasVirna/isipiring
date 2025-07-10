@@ -85,7 +85,7 @@ function renderDashboard(mode) {
         <svg width='18' height='18' fill='none' stroke='#2563eb' stroke-width='2' viewBox='0 0 24 24' style='vertical-align:middle;margin-right:6px;'><line x1='12' y1='20' x2='12' y2='10'/><line x1='18' y1='20' x2='18' y2='4'/><line x1='6' y1='20' x2='6' y2='16'/></svg> Pencapaian
       </div>
       <div style='font-size:1.5rem;font-weight:bold;color:#16a34a;margin-bottom:4px;'>${achievement}%</div>
-      <div class='badge' style='background:#bbf7d0;color:#166534;'>${achievement>=90?'Excellent':achievement>=80?'Good':'Needs Improvement'}</div>
+      <div class='badge' style='background:#bbf7d0;color:#166534;'>${achievement>=90?'Excellent':achievement>=80?'Good':'Perlu Perbaikan'}</div>
     </div>`;
     summaryHtml += `<div style='background:#fff;border:1px solid #bbf7d0;border-radius:16px;padding:20px;'>
       <div style='color:#16a34a;font-weight:bold;font-size:1.1rem;margin-bottom:8px;'>
