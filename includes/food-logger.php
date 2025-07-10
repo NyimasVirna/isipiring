@@ -78,30 +78,58 @@ function clearFoodAlert() {
   document.getElementById('food-alert').innerHTML = '';
 }
 function fetchFoods() {
-  fetch('actions/get_foods.php')
-    .then(r=>r.json())
-    .then(res=>{
+  const baseUrl = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '');
+  const getFoodsUrl = baseUrl + '/actions/get_foods.php';
+  
+  console.log('Fetching foods from:', getFoodsUrl); // Debug log
+  
+  fetch(getFoodsUrl)
+    .then(r => {
+      console.log('Get foods response status:', r.status); // Debug log
+      return r.json();
+    })
+    .then(res => {
+      console.log('Get foods response:', res); // Debug log
       if(res.success) {
         foodDatabase = res.foods;
+        console.log('Food database loaded:', foodDatabase.length, 'items'); // Debug log
       } else {
-        showFoodAlert('Gagal mengambil data makanan', 'error');
+        console.error('Get foods error:', res.message); // Debug log
+        showFoodAlert('Gagal mengambil data makanan: ' + (res.message || 'Unknown error'), 'error');
       }
     })
-    .catch(()=>showFoodAlert('Gagal mengambil data makanan', 'error'));
+    .catch(error => {
+      console.error('Fetch foods error:', error); // Debug log
+      showFoodAlert('Gagal mengambil data makanan: ' + error.message, 'error');
+    });
 }
 function fetchFoodLogs() {
-  fetch('actions/get_food_logs.php?tanggal='+new Date().toISOString().slice(0,10))
-    .then(r=>r.json())
-    .then(res=>{
+  const baseUrl = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '');
+  const getLogsUrl = baseUrl + '/actions/get_food_logs.php?tanggal=' + new Date().toISOString().slice(0,10);
+  
+  console.log('Fetching food logs from:', getLogsUrl); // Debug log
+  
+  fetch(getLogsUrl)
+    .then(r => {
+      console.log('Get logs response status:', r.status); // Debug log
+      return r.json();
+    })
+    .then(res => {
+      console.log('Get logs response:', res); // Debug log
       if(res.success) {
         foodLogs = res.logs;
+        console.log('Food logs loaded:', foodLogs.length, 'items'); // Debug log
         renderSummary();
         renderMealLogs();
       } else {
-        showFoodAlert('Gagal mengambil log makanan', 'error');
+        console.error('Get logs error:', res.message); // Debug log
+        showFoodAlert('Gagal mengambil log makanan: ' + (res.message || 'Unknown error'), 'error');
       }
     })
-    .catch(()=>showFoodAlert('Gagal mengambil log makanan', 'error'));
+    .catch(error => {
+      console.error('Fetch logs error:', error); // Debug log
+      showFoodAlert('Gagal mengambil log makanan: ' + error.message, 'error');
+    });
 }
 function renderSummary() {
   const total = {calories:0,protein:0,carbs:0,fat:0,fiber:0};
@@ -210,33 +238,77 @@ function updateFoodDetail() {
 }
 document.getElementById('food-form').addEventListener('submit', function(e){
   e.preventDefault();
-  if(!selectedFood) return;
+  console.log('Form submitted'); // Debug log
+  
+  if(!selectedFood) {
+    console.log('No food selected'); // Debug log
+    showFoodAlert('Silakan pilih makanan terlebih dahulu', 'error');
+    return;
+  }
+  
+  console.log('Selected food:', selectedFood); // Debug log
+  console.log('Portion:', portion); // Debug log
+  console.log('Selected meal:', selectedMeal); // Debug log
+  
   const fd = new FormData();
-          fd.append('makanan_id', selectedFood.id);
+  fd.append('makanan_id', selectedFood.id);
   fd.append('porsi', portion);
   fd.append('waktu_makan', selectedMeal);
   fd.append('tanggal', new Date().toISOString().slice(0,10));
-  fetch('actions/add_food.php', {
+  
+  // Debug: log FormData contents
+  for (let pair of fd.entries()) {
+    console.log(pair[0] + ': ' + pair[1]);
+  }
+  
+  // Disable button during request
+  const submitBtn = document.getElementById('add-food-btn');
+  const originalText = submitBtn.textContent;
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Memproses...';
+  
+  // Use absolute path for hosting compatibility
+  const baseUrl = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '');
+  const addFoodUrl = baseUrl + '/actions/add_food.php';
+  
+  console.log('Sending request to:', addFoodUrl); // Debug log
+  
+  fetch(addFoodUrl, {
     method: 'POST',
     body: fd
   })
-  .then(r=>r.json())
-  .then(res=>{
+  .then(response => {
+    console.log('Response status:', response.status); // Debug log
+    console.log('Response headers:', response.headers); // Debug log
+    return response.json();
+  })
+  .then(res => {
+    console.log('Response data:', res); // Debug log
     if(res.success) {
       showFoodAlert(res.message||'Berhasil menambah makanan', 'success');
       fetchFoodLogs();
       resetFoodForm();
     } else {
-      // Tampilkan pesan error detail (jika ada)
       let msg = res.message || 'Gagal menambah makanan';
-      alert('Error detail:\n' + msg);
+      console.error('Add food error:', msg); // Debug log
       showFoodAlert(msg, 'error');
     }
   })
-  .catch(()=>showFoodAlert('Gagal menambah makanan', 'error'));
+  .catch(error => {
+    console.error('Fetch error:', error); // Debug log
+    showFoodAlert('Gagal menambah makanan: ' + error.message, 'error');
+  })
+  .finally(() => {
+    // Re-enable button
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalText;
+  });
 });
 // Debug function
 // Hapus fungsi checkSession dan checkTables
+
+// Add console log for initialization
+console.log('Food logger initialized'); // Debug log
 
 // Inisialisasi
 fetchFoods();

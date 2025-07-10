@@ -5,7 +5,15 @@ require_once '../includes/functions.php';
 
 header('Content-Type: application/json');
 
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Log request for debugging
+error_log("Add food request received: " . print_r($_POST, true));
+
 if (!isset($_SESSION['user_id'])) {
+    error_log("User not logged in");
     echo json_encode(['success' => false, 'message' => 'Belum login.']);
     exit;
 }
@@ -20,17 +28,24 @@ $tanggal = $_POST['tanggal'] ?? date('Y-m-d');
 error_log("Add food debug - user_id: $user_id, makanan_id: $makanan_id, porsi: $porsi, waktu_makan: $waktu_makan, tanggal: $tanggal");
 
 if (!$makanan_id || !$porsi || !$waktu_makan) {
+    error_log("Missing required data: makanan_id=$makanan_id, porsi=$porsi, waktu_makan=$waktu_makan");
     echo json_encode(['success' => false, 'message' => 'Data makanan, porsi, dan waktu makan wajib diisi.']);
     exit;
 }
 
-$stmt = $pdo->prepare('INSERT INTO log_makanan (user_id, makanan_id, porsi, waktu_makan, tanggal) VALUES (?, ?, ?, ?, ?)');
-$ok = $stmt->execute([$user_id, $makanan_id, $porsi, $waktu_makan, $tanggal]);
-
-if ($ok) {
-    echo json_encode(['success' => true, 'message' => 'Log makanan berhasil disimpan.']);
-} else {
-    $errorInfo = $stmt->errorInfo();
-    error_log("Database error: " . print_r($errorInfo, true));
-    echo json_encode(['success' => false, 'message' => 'Gagal menyimpan log makanan: ' . $errorInfo[2]]);
-}
+try {
+    $stmt = $pdo->prepare('INSERT INTO log_makanan (user_id, makanan_id, porsi, waktu_makan, tanggal) VALUES (?, ?, ?, ?, ?)');
+    $ok = $stmt->execute([$user_id, $makanan_id, $porsi, $waktu_makan, $tanggal]);
+    
+    if ($ok) {
+        error_log("Food log saved successfully");
+        echo json_encode(['success' => true, 'message' => 'Log makanan berhasil disimpan.']);
+    } else {
+        $errorInfo = $stmt->errorInfo();
+        error_log("Database error: " . print_r($errorInfo, true));
+        echo json_encode(['success' => false, 'message' => 'Gagal menyimpan log makanan: ' . $errorInfo[2]]);
+    }
+} catch (Exception $e) {
+    error_log("Exception in add_food.php: " . $e->getMessage());
+    echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+} 
