@@ -74,63 +74,49 @@ let selectedMeal = 'sarapan';
 function showFoodAlert(msg, type) {
   document.getElementById('food-alert').innerHTML = `<div style='background:${type==='success'?'#dcfce7':'#fee2e2'};color:${type==='success'?'#166534':'#b91c1c'};padding:12px 18px;border-radius:8px;margin-bottom:8px;font-weight:500;'>${msg}</div>`;
 }
+
 function clearFoodAlert() {
   document.getElementById('food-alert').innerHTML = '';
 }
+
 function fetchFoods() {
   const baseUrl = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '');
   const getFoodsUrl = baseUrl + '/actions/get_foods.php';
   
-  console.log('Fetching foods from:', getFoodsUrl); // Debug log
-  
   fetch(getFoodsUrl)
-    .then(r => {
-      console.log('Get foods response status:', r.status); // Debug log
-      return r.json();
-    })
+    .then(r => r.json())
     .then(res => {
-      console.log('Get foods response:', res); // Debug log
       if(res.success) {
         foodDatabase = res.foods;
-        console.log('Food database loaded:', foodDatabase.length, 'items'); // Debug log
       } else {
-        console.error('Get foods error:', res.message); // Debug log
         showFoodAlert('Gagal mengambil data makanan: ' + (res.message || 'Unknown error'), 'error');
       }
     })
     .catch(error => {
-      console.error('Fetch foods error:', error); // Debug log
       showFoodAlert('Gagal mengambil data makanan: ' + error.message, 'error');
     });
 }
+
 function fetchFoodLogs() {
   const baseUrl = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '');
   const getLogsUrl = baseUrl + '/actions/get_food_logs.php?tanggal=' + new Date().toISOString().slice(0,10);
   
-  console.log('Fetching food logs from:', getLogsUrl); // Debug log
-  
   fetch(getLogsUrl)
-    .then(r => {
-      console.log('Get logs response status:', r.status); // Debug log
-      return r.json();
-    })
+    .then(r => r.json())
     .then(res => {
-      console.log('Get logs response:', res); // Debug log
       if(res.success) {
         foodLogs = res.logs;
-        console.log('Food logs loaded:', foodLogs.length, 'items'); // Debug log
         renderSummary();
         renderMealLogs();
       } else {
-        console.error('Get logs error:', res.message); // Debug log
         showFoodAlert('Gagal mengambil log makanan: ' + (res.message || 'Unknown error'), 'error');
       }
     })
     .catch(error => {
-      console.error('Fetch logs error:', error); // Debug log
       showFoodAlert('Gagal mengambil log makanan: ' + error.message, 'error');
     });
 }
+
 function renderSummary() {
   const total = {calories:0,protein:0,carbs:0,fat:0,fiber:0};
   foodLogs.forEach(f=>{
@@ -154,6 +140,7 @@ function renderSummary() {
   });
   document.getElementById('summary-cards').innerHTML = html;
 }
+
 function renderMealLogs() {
   let html = '';
   mealTimes.forEach(meal => {
@@ -177,6 +164,7 @@ function renderMealLogs() {
   });
   document.getElementById('meal-logs').innerHTML = html;
 }
+
 function resetFoodForm() {
   selectedFood = null;
   portion = 100;
@@ -184,9 +172,12 @@ function resetFoodForm() {
   document.getElementById('selected-food-detail').style.display = 'none';
   document.getElementById('food-search-results').innerHTML = '';
 }
+
+// Event Listeners
 document.getElementById('meal-time').addEventListener('change', function(e){
   selectedMeal = this.value;
 });
+
 document.getElementById('food-search').addEventListener('input', function(e){
   const term = this.value.toLowerCase();
   if(!term) {
@@ -210,6 +201,7 @@ document.getElementById('food-search').addEventListener('input', function(e){
     }
   });
 });
+
 function showSelectedFood() {
   if(!selectedFood) return;
   let html = `<div style='font-weight:500;color:#166534;margin-bottom:8px;'>${selectedFood.name}</div>
@@ -228,6 +220,7 @@ function showSelectedFood() {
     updateFoodDetail();
   });
 }
+
 function updateFoodDetail() {
   if(!selectedFood) return;
   const multiplier = portion/100;
@@ -236,30 +229,20 @@ function updateFoodDetail() {
   document.getElementById('carb-val').textContent = Math.round(selectedFood.carbs * multiplier * 10)/10;
   document.getElementById('fat-val').textContent = Math.round(selectedFood.fat * multiplier * 10)/10;
 }
+
 document.getElementById('food-form').addEventListener('submit', function(e){
   e.preventDefault();
-  console.log('Form submitted'); // Debug log
   
   if(!selectedFood) {
-    console.log('No food selected'); // Debug log
     showFoodAlert('Silakan pilih makanan terlebih dahulu', 'error');
     return;
   }
-  
-  console.log('Selected food:', selectedFood); // Debug log
-  console.log('Portion:', portion); // Debug log
-  console.log('Selected meal:', selectedMeal); // Debug log
   
   const fd = new FormData();
   fd.append('makanan_id', selectedFood.id);
   fd.append('porsi', portion);
   fd.append('waktu_makan', selectedMeal);
   fd.append('tanggal', new Date().toISOString().slice(0,10));
-  
-  // Debug: log FormData contents
-  for (let pair of fd.entries()) {
-    console.log(pair[0] + ': ' + pair[1]);
-  }
   
   // Disable button during request
   const submitBtn = document.getElementById('add-food-btn');
@@ -271,31 +254,22 @@ document.getElementById('food-form').addEventListener('submit', function(e){
   const baseUrl = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '');
   const addFoodUrl = baseUrl + '/actions/add_food.php';
   
-  console.log('Sending request to:', addFoodUrl); // Debug log
-  
   fetch(addFoodUrl, {
     method: 'POST',
     body: fd
   })
-  .then(response => {
-    console.log('Response status:', response.status); // Debug log
-    console.log('Response headers:', response.headers); // Debug log
-    return response.json();
-  })
+  .then(response => response.json())
   .then(res => {
-    console.log('Response data:', res); // Debug log
     if(res.success) {
       showFoodAlert(res.message||'Berhasil menambah makanan', 'success');
       fetchFoodLogs();
       resetFoodForm();
     } else {
       let msg = res.message || 'Gagal menambah makanan';
-      console.error('Add food error:', msg); // Debug log
       showFoodAlert(msg, 'error');
     }
   })
   .catch(error => {
-    console.error('Fetch error:', error); // Debug log
     showFoodAlert('Gagal menambah makanan: ' + error.message, 'error');
   })
   .finally(() => {
@@ -304,11 +278,6 @@ document.getElementById('food-form').addEventListener('submit', function(e){
     submitBtn.textContent = originalText;
   });
 });
-// Debug function
-// Hapus fungsi checkSession dan checkTables
-
-// Add console log for initialization
-console.log('Food logger initialized'); // Debug log
 
 // Inisialisasi
 fetchFoods();
